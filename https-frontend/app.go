@@ -22,7 +22,7 @@ func (app *App) helloHandler(w http.ResponseWriter, r *http.Request) {
 	defer cancel()
 	grpc_r, err := app.Client.SayHello(ctx, &pb.HelloRequest{Name: "Azure Container Apps"})
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Printf("could not greet: %v", err)
 	}
 	w.Write([]byte(grpc_r.GetMessage()))
 }
