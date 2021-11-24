@@ -1,32 +1,34 @@
 package main
 
 import (
+	"context"
+	"crypto/tls"
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	pb "github.com/jeffhollan/grpc-sample-go/protos"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/grpc/credentials/xds"
+	"google.golang.org/grpc/credentials"
 )
 
 func main() {
 	addr, ok := os.LookupEnv("GRPC_SERVER_ADDRESS")
 	opts := []grpc.DialOption{}
-
 	if !ok {
 		addr = "localhost:50051"
+		opts = append(opts, grpc.WithInsecure())
+	} else {
+		config := &tls.Config{
+			InsecureSkipVerify: false,
+		}
+		creds := credentials.NewTLS(config)
+		opts = append(opts, grpc.WithTransportCredentials(creds))
 	}
-	creds, err := xds.NewClientCredentials(xds.ClientOptions{
-		FallbackCreds: insecure.NewCredentials(),
-	})
-	if err != nil {
-		log.Fatalf("error creating client credentials: %v", err)
-	}
-	opts = append(opts, grpc.WithTransportCredentials(creds))
 
-	conn, err := grpc.Dial(addr, opts...)
+	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+	conn, err := grpc.DialContext(ctx, addr, opts...)
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
