@@ -55,7 +55,7 @@ az containerapp create \
   --resource-group $RESOURCE_GROUP \
   --environment $ACA_ENVIRONMENT \
   --image ghcr.io/jeffhollan/grpc-sample-go/https-frontend:main \
-  --environment-variables GRPC_SERVER_ADDRESS=https://$GRPC_SERVER_ADDRESS \
+  --environment-variables GRPC_SERVER_ADDRESS=$GRPC_SERVER_ADDRESS \
   --target-port 80 \
   --ingress 'external' \
   --query configuration.ingress.fqdn
