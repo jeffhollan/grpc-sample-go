@@ -30,7 +30,7 @@ func (app *App) helloHandler(w http.ResponseWriter, r *http.Request) {
 func (app *App) initializeRoutes(Client pb.GreeterClient) {
 	app.Client = Client
 	app.Router = mux.NewRouter()
-	app.Router.HandleFunc("/", app.helloHandler)
+	app.Router.HandleFunc("/hello", app.helloHandler)
 }
 
 func (app *App) run(addr string) {
