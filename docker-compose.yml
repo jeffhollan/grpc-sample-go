@@ -7,7 +7,7 @@ services:
       context: ./
       dockerfile: ./https-frontend/Dockerfile
     ports:
-      - 8080:80
+      - 8080:8050
     environment:
       - GRPC_SERVER_ADDRESS
   backend:
@@ -17,4 +17,4 @@ services:
       context: ./
       dockerfile: ./grpc-backend/Dockerfile
     ports:
-      - 8090:8085
+      - 8090:50051

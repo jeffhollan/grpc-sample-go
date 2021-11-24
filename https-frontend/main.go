@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -10,12 +9,14 @@ import (
 	"google.golang.org/grpc"
 )
 
-var (
-	addr = flag.String("addr", "localhost:50051", "the address to connect to")
-)
-
 func main() {
-	conn, err := grpc.Dial(*addr, grpc.WithInsecure())
+	addr, ok := os.LookupEnv("GRPC_SERVER_ADDRESS")
+
+	if !ok {
+		addr = "localhost:50051"
+	}
+
+	conn, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
