@@ -41,7 +41,7 @@ az containerapp create \
   --environment $ACA_ENVIRONMENT \
   --image ghcr.io/jeffhollan/grpc-sample-go/grpc-backend:main \
   --ingress 'internal' \
-  --target-port 8085 \
+  --target-port 50051 \
   --transport 'http2'
 
 GRPC_SERVER_ADDRESS=$(az containerapp show \
