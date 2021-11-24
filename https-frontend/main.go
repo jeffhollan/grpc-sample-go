@@ -11,12 +11,14 @@ import (
 
 func main() {
 	addr, ok := os.LookupEnv("GRPC_SERVER_ADDRESS")
+	opts := []grpc.DialOption{}
 
 	if !ok {
 		addr = "localhost:50051"
+		opts = append(opts, grpc.WithInsecure())
 	}
 
-	conn, err := grpc.Dial(addr, grpc.WithInsecure())
+	conn, err := grpc.Dial(addr, opts...)
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
