@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "grpc_backend";
+option go_package = "github.com/jeffhollan/grpc-sample-go/protos";
 
 package greet;
 

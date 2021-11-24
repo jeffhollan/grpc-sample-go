@@ -64,3 +64,9 @@ az containerapp create \
 ### Try the solution
 
 After deploying, get the FQDN of the https-frontend and call it and hit the `/hello` endpoint. It will call the gRPC backend (via gRPC) and return a message to the client.
+
+## Build and run the code
+
+### Generate the protobuf client
+
+`protoc protos/greet.proto -I. --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative`
