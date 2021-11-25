@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	pb "github.com/jeffhollan/grpc-sample-go/protos"
@@ -18,13 +19,16 @@ func main() {
 	opts := []grpc.DialOption{}
 	if !ok {
 		addr = "localhost:50051"
-		opts = append(opts, grpc.WithInsecure())
-	} else {
+	}
+
+	if strings.HasSuffix(addr, ":443") {
 		config := &tls.Config{
 			InsecureSkipVerify: false,
 		}
 		creds := credentials.NewTLS(config)
 		opts = append(opts, grpc.WithTransportCredentials(creds))
+	} else {
+		opts = append(opts, grpc.WithInsecure())
 	}
 
 	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
